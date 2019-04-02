@@ -26,7 +26,7 @@ import datetime
 import functools32
 
 
-local_version = True
+local_version = False
 
 if local_version:
 	database_url = sys.argv[1]
@@ -38,7 +38,7 @@ else:
 urlparse.uses_netloc.append('postgres')
 url = urlparse.urlparse(database_url)
 
-def getDBConnection(url):
+def getDBConnection():
 	return db.SQLConnector(url)
 
 

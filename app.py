@@ -54,7 +54,7 @@ colour_palette = ['rgb(240,21,22)',
 if local_version:
 	app = dash.Dash()
 else:
-	app = dash.Dash('Trump Dash', server=server)
+	app = dash.Dash(__name__, server=server)
 	app.config.supress_callback_exceptions = True	
 
 

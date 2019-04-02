@@ -55,8 +55,7 @@ if local_version:
 	app = dash.Dash()
 else:
 	app = dash.Dash(__name__, server=server)
-	app.config.supress_callback_exceptions = True	
-
+	app.config.supress_callback_exceptions = True
 
 app.index_string = '''
 <!DOCTYPE html>

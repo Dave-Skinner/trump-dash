@@ -1,0 +1,56 @@
+html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    font: 400 16px/1.2 'PT Serif', Times, serif;
+    color: black;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+    background: white;
+
+    font: inherit;
+    color: black;
+}
+
+a {
+    color: inherit;
+}
+
+a:hover,
+a:active,
+a:focus {
+    color: #a35fe0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    letter-spacing: 0;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+li {
+    margin: 0;
+}

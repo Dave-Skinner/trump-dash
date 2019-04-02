@@ -1,0 +1,13 @@
+dash-core-components==0.23.0
+dash-html-components==0.11.0
+dash-renderer==0.13.0
+dash==0.24.1
+dash-auth==0.0.10
+pandas==0.19.2
+plotly==2.7.0
+psycopg2==2.7.5
+Flask==0.12.2
+gunicorn==19.7.1
+numpy==1.12.0
+scipy==0.18.1
+requests==2.18.4

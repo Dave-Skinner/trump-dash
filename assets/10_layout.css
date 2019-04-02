@@ -1,0 +1,43 @@
+.l-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.l-grid,
+.l-subgrid {
+    display: grid;
+    grid-gap: 5px;
+}
+
+.l-grid {
+    grid-template-columns: 80px repeat(12, 1fr) 80px;
+}
+
+.l-subgrid {
+    grid-template-columns: repeat(12, 1fr);
+}
+
+.l-subgrid--five {
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.l-subgrid--six {
+    grid-template-columns: repeat(6, 1fr);
+}
+
+.l-grid > * {
+    grid-column: 2 / span 12;
+}
+
+.l-subgrid > * {
+    grid-column: 1 / span 12;
+}
+
+.l-grid > .l-grid:first-child {
+    margin-top: -20px;
+    padding-top: 0;
+}
+
+#submission-page {
+    grid-column: 1 / span 14;
+}

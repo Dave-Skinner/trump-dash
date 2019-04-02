@@ -1,0 +1,74 @@
+
+.stat__number {
+    margin: 10px 0 0 0;
+
+    font-size: 65px;
+    font-weight: 700;
+    float: left;
+    clear: both;
+}
+
+.stat__text {
+    margin: 20px 0 0 0;
+
+    font-size: 20px;
+    font-weight: 700;
+    float: left;
+    clear: both;
+}
+
+.input-wrapper {
+    grid-column: 1 / span 3;
+    margin-top: 80px;
+}
+
+.heatmap-header {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.heatmap-graph {
+    margin-top: 0px;
+
+    font-size: 20px;
+    font-weight: 700;
+}
+
+
+.input__text {
+    margin: 10px 0 0 0;
+
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.heatmap-wrapper {
+    grid-column: 4 / span 7;
+    margin-top: -150px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.main-graph-wrapper{
+    grid-column: 4 / span 7;
+    margin-top: 0px;    
+}
+
+.selected-post-wrapper{
+    grid-column: 11 / span 2;
+    margin-top: 80px;    
+}
+
+.stat-box-1-wrapper{
+    grid-column: 1 / span 3;
+    margin-top: -100px;   
+}
+.stat-box-2-wrapper{
+    grid-column: 11 / span 2;
+    margin-top: -100px;    
+}
+
+.stat-box-sub-wrapper{
+    grid-column: 1 / span 2;
+    border:1px solid black;   
+}

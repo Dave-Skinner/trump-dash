@@ -1,0 +1,31 @@
+.input[type='text'],
+.input[type='email'],
+.input[type='search'] {
+    display: inline-block;
+    height: 38px;
+    padding: 6px 10px;
+
+    background: white;
+    border: 1px solid black;
+    border-radius: 4px;
+
+    color: #a35fe0;
+
+    box-shadow: none;
+    font-family: inherit;
+    font-size: inherit;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.input[type='text']:focus,
+.input[type='email']:focus,
+.input[type='search']:focus {
+    border-color: #a35fe0;
+}
+
+.input.has-error {
+    border: 1px solid red;
+}

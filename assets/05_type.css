@@ -1,0 +1,13 @@
+.t-sans {
+    font-family: 'Poppins', sans-serif;
+}
+
+.t-serif {
+    font-family: 'PT Serif', serif;
+}
+
+.t-title {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

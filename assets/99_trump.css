@@ -61,11 +61,11 @@
 
 .stat-box-1-wrapper{
     grid-column: 1 / span 3;
-    margin-top: -100px;   
+    margin-top: -150px;   
 }
 .stat-box-2-wrapper{
     grid-column: 11 / span 2;
-    margin-top: -100px;    
+    margin-top: -150px;    
 }
 
 .stat-box-sub-wrapper{

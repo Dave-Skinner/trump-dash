@@ -143,7 +143,7 @@ app.layout = html.Div([
 		    html.Div([
 		    	html.Div([
 		    		html.Div(id='post-percentage-div'),
-		    		html.Div(id='favourite-ratio-div')
+		    		html.Div(id='regress-stat-div')
 		    	],className='stat-box-1-wrapper'),
             	html.Div([
             		dcc.Graph(id='heatmap-graph',
@@ -151,7 +151,7 @@ app.layout = html.Div([
 		            		className='heatmap-graph')
 		        ],className='heatmap-wrapper'),
 		        html.Div([
-		        	html.Div(id='regress-stat-div')
+		        	html.Div(id='favourite-ratio-div')
 		        ],className='stat-box-2-wrapper')		     
             ],className='l-subgrid'),
 		], className='l-grid'),
@@ -615,12 +615,18 @@ def update_regress_stat(start_date,
 	xi = np.array(trendline_x_data)
 	slope_all, intercept, r_value, p_value, std_err_all = stats.linregress(trendline_x_data,engagement_list)
 
-	slope_ratio = slope_search/slope_all
+	if slope_search < 0.0 and slope_all < 0.0:
+		slope_ratio = -slope_search/slope_all
+	elif slope_search > 0.0 and slope_all < 0.0:
+		slope_ratio = -slope_search/slope_all
+	else:
+		slope_ratio = slope_search/slope_all
 
-	return html.Div([html.H2("{:.2f}".format(float(slope_ratio)),className='stat__number'),
+	'''return html.Div([html.H2("{:.2f}".format(float(slope_ratio)),className='stat__number'),
 			  		html.H2("is the ratio between the gradients of the trendlines for " + search_term + 
 			  				" posts and other posts. This is a crude statistic but, in general, a ratio of greater than 1.0 indicates that the popularity of " +
 			  				search_term + " posts is growing compared to all other posts. Less than 1.0 indicates the popularity of those posts is decreasing." ,className='stat__text')])
-
+	'''
+	return None
 if __name__ == '__main__':
     app.run_server(debug=True)

@@ -84,10 +84,7 @@ external_css = ["https://s3.eu-west-2.amazonaws.com/desigual-decks-2/skeleton_da
 for css in external_css:
 	app.css.append_css({ "external_url": css })
 
-if 'DYNO' in os.environ:
-	app.scripts.append_script({
-        'external_url': 'https://cdn.rawgit.com/chriddyp/ca0d8f02a1659981a0ea7f013a378bbd/raw/e79f3f789517deec58f41251f7dbb6bee72c44ab/plotly_ga.js'
-    })
+
 
 metrics = ["RETWEETS","FAVOURITES"]
 heatmap_metrics = ["NUMBER OF POSTS","RETWEETS","FAVOURITES"]
@@ -95,11 +92,8 @@ heatmap_metrics = ["NUMBER OF POSTS","RETWEETS","FAVOURITES"]
 
 app.layout = html.Div([
 		html.Div([# page 1	
-
-
 			html.Div([
 	            html.Div([
-
 		            html.Div([
 		                html.H6('Choose Date Range:', className = "input__text"),
 		                html.Div([
@@ -109,41 +103,32 @@ app.layout = html.Div([
 						        display_format="DD/MM/YY",
 	        					initial_visible_month=datetime.date(2017, 8, 5)
 							)
-			            ],)
-
-		                ]
-		            ),
+			            ])
+		            ]),
 	            	html.Div([
 		                html.H6('Filter by caption:', className = "input__text"),
 		                dcc.Input(id='caption-search-input-box', type="text")
-
-		                ],
-		            ),
+		            ]),
 	            	html.Div([
 		                html.H6('Try some suggestions:', className = "input__text"),
 		                html.Button('MAGA',id='maga-button'),
 		                html.Button('Crooked Hillary',id='crooked-hillary-button'),
 		                html.Button('Witch Hunt',id='witch-hunt-button'),
 		                html.Button('Obama',id='obama-button')
-
-		                ],
-		            ),
+		            ]),
 	            ],className='input-wrapper'),
-            	html.Div(
-		            [dcc.Graph(id='main-graph',
+            	html.Div([
+            		dcc.Graph(id='main-graph',
 			            		config={'displayModeBar': False},
-		            			className='heatmap-graph')],
-			        className='main-graph-wrapper'
-			    ),
+		            			className='heatmap-graph')
+            	],className='main-graph-wrapper'),
 			    html.Div(id='selected-post-div',
                     	 className='selected-post-wrapper')	
-
 	        ],className='l-subgrid'),
 
 		    html.Div([
 		    	html.Div([
-		    		html.Div(id='post-percentage-div'),
-		    		html.Div(id='regress-stat-div')
+		    		html.Div(id='post-percentage-div')
 		    	],className='stat-box-1-wrapper'),
             	html.Div([
             		dcc.Graph(id='heatmap-graph',
@@ -167,8 +152,6 @@ def getTrumpTwitterPostsDataframe(start_date,
 	data = c2.getTrumpTweetsData(start_date=start_date,
 												 end_date=end_date,
 												 keywords=keywords)
-	#print data[0]
-
 	df = pd.DataFrame(data, columns=["POST ID","HANDLE","DATE POSTED","TEXT","CONTRIBUTORS","IN REPLY TO STATUS ID","TWEET SOURCE","IN REPLY TO SCREENNAME","RETWEETS","FAVOURITES","URL","HASHTAGS","MEDIA URL"])
 	
 	return df[df['TEXT'].str.startswith('RT @')==False]
@@ -212,13 +195,11 @@ def display_selected_post(clickData,
 	if df_selection.empty:
 		return None
 	else:
-		return [
-				html.Iframe(src="https://twitframe.com/show?url=https://twitter.com/realdonaldtrump/status/"+df_selection["POST ID"].values.tolist()[0],
+		return [html.Iframe(src="https://twitframe.com/show?url=https://twitter.com/realdonaldtrump/status/"+df_selection["POST ID"].values.tolist()[0],
 							style={'height':'500',
 									'border':'0',
 									'frameborder':'0',
-									'theme':'dark'})			          
-	        ]
+									'theme':'dark'})]
 
 
 '''**************************************************************************************************************************8
@@ -261,8 +242,7 @@ def getEmptyScatterPlot():
 	data = []
 	data.append(go.Scatter( x=[],y=[]))	
 	figure = {	'data': data,
-				'layout': go.Layout(showlegend=False)
-		    }
+				'layout': go.Layout(showlegend=False)}
 	return figure
 
 @app.callback(
@@ -280,15 +260,11 @@ def update_scatter_plot(clickData,
 	if not end_date: end_date = datetime.date.today()
 	else: end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d").date()
 	
-	#if search_clicks=='No Filter': search_term=None
-
 	df = getTrumpTwitterPostsDataframe(start_date,
 									end_date)
-
 	
 	if df.empty:
 		return getEmptyScatterPlot()
-
 
 	if clickData:
 		post_id = clickData["points"][0]["customdata"]
@@ -302,8 +278,6 @@ def update_scatter_plot(clickData,
 		df_post = df.tail(n=1)	
 
 	data = []
-
-	print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 
 	if search_term:
 		df_search = df[df['TEXT'].str.contains(search_term,case=False)==True]
@@ -403,9 +377,7 @@ def update_scatter_plot(clickData,
 									hovermode='closest',
 									yaxis=dict(range=y_axis_range),
 				                    height=450,
-				                    autosize=True)
-		    }
-	print "***********************************************************************************"
+				                    autosize=True)}
 	return figure
 
 
@@ -424,7 +396,6 @@ def getTwitterPostsHeatmapDataframe(metric,
 	data = c.getTrumpTweetsData(keywords=keywords,
 								 start_date=start_date,
 								 end_date=end_date)
-	#print data
 	parsed_data = []
 	for row in data:
 		row_list = [row[2],row[8],row[9]]
@@ -433,7 +404,6 @@ def getTwitterPostsHeatmapDataframe(metric,
 
 	df["DATE POSTED"] = pd.DatetimeIndex(df["DATE POSTED"])
 	df.set_index(keys="DATE POSTED",inplace=True)
-	print df
 
 	offset_hours=-5
 
@@ -460,7 +430,7 @@ def getHeatmap(data_array):
 							x=['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23'],
 					        y=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday','Saturday','Sunday'],
 					        colorscale= [[0, 'rgb(0,0,0)'], [0.25, 'rgb(22,96,185)'], [0.5, 'rgb(163,95,224)'], [0.75, 'rgb(240,21,22)'], [1, 'rgb(255,234,0)']] ))
-					        #colorscale= [[0, 'rgb(22,96,185)'], [0.33, 'rgb(163,95,224)'], [0.66, 'rgb(240,21,22)'], [1, 'rgb(255,234,0)']] ))	
+					        
 	figure = {	'data': data,
 				'layout': go.Layout(title='What time of the day is he tweeting this nonsense?',
 									titlefont=dict(size=20,family='PT Serif',color='black'),
@@ -489,9 +459,9 @@ def update_heatmap(start_date,
 
 	metric = "NUMBER OF POSTS"
 	data_array = getTwitterPostsHeatmapDataframe( metric,
-									  start_date,
-									  end_date,
-									  search_term)
+												  start_date,
+												  end_date,
+												  search_term)
 
 	print data_array
 
@@ -522,7 +492,6 @@ def update_percentage_stat(start_date,
 
 	df = getTrumpTwitterPostsDataframe(start_date,
 									end_date)
-
 	
 	if df.empty:
 		return None
@@ -535,7 +504,6 @@ def update_percentage_stat(start_date,
 
 	return html.Div([html.H2("{:.2f}".format(100.0*float(percentage)) + "%",className='stat__number'),
 			  		html.H2(" of all posts contain " + search_term,className='stat__text')])
-	#return "{:.2f}".format(100.0*float(percentage)) + "% of all posts contain " + search_term
 
 
 @app.callback(
@@ -572,61 +540,7 @@ def update_ratio_stat(start_date,
 			  				" posts compared to all others. A ratio of greater than 1.0 means that " +
 			  				search_term +
 			  				" posts are more popular than other posts.",className='stat__text')])
-	#return "{:.2f}".format(100.0*float(percentage)) + "% is the ratio of the average number of favourites for " + search_term + " posts compared to all others"
-
-
-@app.callback(
-    Output('regress-stat-div', 'children'),
-    [Input('date-picker-range', 'start_date'),
-     Input('date-picker-range', 'end_date'),
-     Input('caption-search-input-box', 'value')])
-def update_regress_stat(start_date,
-						 end_date,
-						 search_term):
-	if not start_date: start_date = datetime.date(2000,1,1)	
-	else: start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
-	if not end_date: end_date = datetime.date.today()
-	else: end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d").date()
 	
-	if search_term is None:
-		return None
 
-	df = getTrumpTwitterPostsDataframe(start_date,
-									end_date)
-
-	
-	if df.empty:
-		return None
-
-	df_search = df[df['TEXT'].str.contains(search_term,case=False)==True]
-	if df_search.empty:
-		return None
-
-
-	date_list = df_search["DATE POSTED"].tolist()
-	engagement_list = df_search["FAVOURITES"].tolist()
-	trendline_x_data = [int((row- date_list[-1]).total_seconds()) for row in date_list]
-	xi = np.array(trendline_x_data)
-	slope_search, intercept, r_value, p_value, std_err_search = stats.linregress(trendline_x_data,engagement_list)
-
-	date_list = df["DATE POSTED"].tolist()
-	engagement_list = df["FAVOURITES"].tolist()
-	trendline_x_data = [int((row- date_list[-1]).total_seconds()) for row in date_list]
-	xi = np.array(trendline_x_data)
-	slope_all, intercept, r_value, p_value, std_err_all = stats.linregress(trendline_x_data,engagement_list)
-
-	if slope_search < 0.0 and slope_all < 0.0:
-		slope_ratio = -slope_search/slope_all
-	elif slope_search > 0.0 and slope_all < 0.0:
-		slope_ratio = -slope_search/slope_all
-	else:
-		slope_ratio = slope_search/slope_all
-
-	'''return html.Div([html.H2("{:.2f}".format(float(slope_ratio)),className='stat__number'),
-			  		html.H2("is the ratio between the gradients of the trendlines for " + search_term + 
-			  				" posts and other posts. This is a crude statistic but, in general, a ratio of greater than 1.0 indicates that the popularity of " +
-			  				search_term + " posts is growing compared to all other posts. Less than 1.0 indicates the popularity of those posts is decreasing." ,className='stat__text')])
-	'''
-	return None
 if __name__ == '__main__':
     app.run_server(debug=True)

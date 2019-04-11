@@ -108,7 +108,6 @@ class SQLConnector(object):
 		self.c.close()
 		self.c = self.conn.cursor()
 
-
 	def createTrumpTweetsTable(self):        
 		self.c.execute("""CREATE TABLE trump_tweets (
 							id text,
@@ -155,16 +154,16 @@ class SQLConnector(object):
 		if keywords:
 			parsed_keywords = '%'+keywords+'%'
 			self.c.execute("""SELECT * 
-					 FROM trump_tweets
-					 WHERE created_at > %s 
-					 AND created_at < %s 
-					 AND tweet_text LIKE %s
-					 ORDER BY created_at""",[start_date,end_date,parsed_keywords]) 
+								 FROM trump_tweets
+								 WHERE created_at > %s 
+								 AND created_at < %s 
+								 AND tweet_text LIKE %s
+								 ORDER BY created_at""",[start_date,end_date,parsed_keywords]) 
 		else:
 			self.c.execute("""SELECT * 
-					 FROM trump_tweets
-					 WHERE created_at > %s 
-					 AND created_at < %s 
-					 ORDER BY created_at""",[start_date,end_date]) 
+								 FROM trump_tweets
+								 WHERE created_at > %s 
+								 AND created_at < %s 
+								 ORDER BY created_at""",[start_date,end_date]) 
 		return self.c.fetchall()
 
